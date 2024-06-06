@@ -1,25 +1,15 @@
-import Home from './views/home/index'
-import About from './views/about/index'
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
+import { useRoutes } from "react-router-dom";
+import routes from "./routes";
+import LayoutView from "./layout";
+import { AuthContextProvider } from "./context/AuthContext";
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Home/>,
-  },
-  {
-    path: "/about",
-    element: <About/>,
-  },
-]);
+function App(): JSX.Element {
+  const routing = useRoutes(routes);
 
-
-function App() {
   return (
-    <RouterProvider router={router}/>
+    <AuthContextProvider>
+      <LayoutView>{routing}</LayoutView>
+    </AuthContextProvider>
   );
 }
 

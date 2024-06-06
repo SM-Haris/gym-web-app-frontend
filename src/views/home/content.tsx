@@ -1,53 +1,86 @@
-import { AppBar, Box, Button, Toolbar, Typography } from "@mui/material";
-import React from "react";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { Layout, Card, Row, Col, Image, Typography, Button } from 'antd'; // Import necessary components
 
-export const Content: React.FC = () => {
+const { Content } = Layout; // Destructure Content from Layout
+
+interface GymCardProps {
+  title: string;
+  description: string;
+  imageUrl: string;
+  linkText?: string; // Optional link text
+  linkUrl?: string; // Optional link URL
+}
+
+const GymCard: React.FC<GymCardProps> = ({ title, description, imageUrl, linkText, linkUrl }) => {
   return (
-    <>
-      <Box sx={{ flexGrow: 1, margin: 0 }}>
-        <AppBar
-          position="static"
-          sx={{
-            backgroundColor: "#FFF000",
-            background:
-              "linear-gradient(270deg, rgba(0,0,0,1) 0%, rgba(255,165,0,1) 100%)",
-          }}
-        >
-          <Toolbar>
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              GymUp
-            </Typography>
-            <Link to="/about" style={{textDecoration:'none'}}>
-            <Button sx={{color:'#FFFFFF'}} color="inherit">About</Button>
-            </Link>
-            <Button color="inherit">Contact</Button>
-            <Button color="inherit">Login</Button>
-          </Toolbar>
-        </AppBar>
-      </Box>
-
-      <Box
-        sx={{
-          height: 600,
-          backgroundImage: 'url("https://dummyimage.com/720x400")',
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          width: "100%",
-          position: "relative",
-        }}
-      >
-        <Typography
-          sx={{
-            position: "absolute",
-            left: 10,
-            bottom: 10,
-          }}
-          variant="h2"
-        >
-          GymUp
-        </Typography>
-      </Box>
-    </>
+    <Card
+      hoverable
+      style={{ width: 240 }}
+      cover={<Image alt={title} src={imageUrl} preview={false} />}
+    >
+      <Card.Meta title={title} description={description} />
+      {linkText && linkUrl && (
+        <Button type="primary" size="small" href={linkUrl}>
+          {linkText}
+        </Button>
+      )}
+    </Card>
   );
 };
+
+const HomeContent: React.FC = () => {
+  // Dummy data for gym cards
+  const gymCards: GymCardProps[] = [
+    {
+      title: 'Strength Training',
+      description: 'Build muscle and increase strength with our personalized programs.',
+      imageUrl: 'https://picsum.photos/id/200/300/sports',
+      linkText: 'Learn More',
+      linkUrl: '/strength-training', // Replace with actual URL
+    },
+    {
+      title: 'Cardio Fitness',
+      description: 'Get your heart pumping with our high-energy cardio classes.',
+      imageUrl: 'https://picsum.photos/id/201/300/gym',
+      linkText: 'Explore Classes',
+      linkUrl: '/cardio-classes', // Replace with actual URL
+    },
+    {
+      title: 'Group Fitness',
+      description: 'Train together and motivate each other with our fun group workouts.',
+      imageUrl: 'https://picsum.photos/id/202/300/sports',
+      linkText: 'Join a Class',
+      linkUrl: '/group-fitness', // Replace with actual URL
+    },
+  ];
+
+  return (
+    <Content style={{ padding: '0 50px' }}>
+      <Row gutter={16}>
+        <Col span={24}>
+          <Typography.Title level={2}>Welcome to GymUp!</Typography.Title>
+          <Typography.Paragraph>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur eget leo at tellus malesuada vehicula.
+          </Typography.Paragraph>
+          <Button type="primary" size="large" href="/about">
+            Learn More About Us
+          </Button>
+        </Col>
+        <Col span={24}>
+          <Typography.Title level={3} style={{ marginTop: '2rem' }}>
+            What We Offer
+          </Typography.Title>
+          <Row gutter={16}>
+            {gymCards.map((card) => (
+              <Col key={card.title} xs={24} sm={12} md={8} lg={6}>
+                <GymCard {...card} />
+              </Col>
+            ))}
+          </Row>
+        </Col>
+      </Row>
+    </Content>
+  );
+};
+
+export default HomeContent;
