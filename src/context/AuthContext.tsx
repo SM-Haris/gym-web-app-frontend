@@ -1,6 +1,6 @@
 import { ReactElement, createContext, useReducer } from "react";
 import { useNavigate } from "react-router-dom";
-import { LoginBody, loginApi, ApiResponse, setToken, SignupBody, signupApi } from "../api";
+import { LoginBody, loginApi, ApiResponse, SignupBody, signupApi } from "../api";
 import { message } from "antd";
 
 type Props = {
@@ -58,8 +58,7 @@ export const AuthContextProvider = ({
     });
     loginApi(params)
       .then(({ data }: ApiResponse) => {
-        setToken(data.access_token);
-        navigate("/home");
+        navigate("/dashboard");
       })
       .catch((error)=>{
         message.error(error.message)
@@ -79,8 +78,7 @@ export const AuthContextProvider = ({
     });
     signupApi(params)
       .then(({ data }: ApiResponse) => {
-        setToken(data.access_token);
-        navigate("/home");
+        navigate("/dashboard");
       })
       .catch((error)=>{
         message.error(error.message)

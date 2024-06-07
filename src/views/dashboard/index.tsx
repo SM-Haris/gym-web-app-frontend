@@ -1,9 +1,12 @@
-import DashboardContent from "./content"
+import { DashboardContextProvider } from "../../context/DashboardContext";
+import DashboardContent from "./content";
 
 const Dashboard: React.FC = () => {
-    return (
-        <DashboardContent/>
-    )
-}
+  return (
+    <DashboardContextProvider>
+      <DashboardContent />
+    </DashboardContextProvider>
+  );
+};
 
-export default Dashboard
+export default Dashboard;

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { toLoginPage } from "./sso";
+import { setToken, toLoginPage } from "./sso";
 import { message } from "antd";
 
 const getAuthHeader = () => {
@@ -23,6 +23,27 @@ const portalService = axios.create({
   timeout: 20 * 1000,
 });
 
+ssoService.interceptors.response.use(
+  (response) => {
+    const { status } = response;
+    switch (status) {
+      case 200:
+      case 201:
+        setToken(response.data.data.access_token)
+        return response.data;
+      case 401:
+        toLoginPage(true);
+        return response.data;
+      default:
+        message.error("Network Error");
+        return Promise.reject(new Error("Network Error"));
+    }
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+)
+
 portalService.interceptors.request.use(
   (config: any) => {
     config.headers = getAuthHeader();
@@ -40,10 +61,10 @@ portalService.interceptors.response.use(
       case 200:
       case 201:
       case 204:
-        return response;
+        return response.data;
       case 401:
         toLoginPage(true);
-        return response;
+        return response.data;
       default:
         message.error("Network Error");
         return Promise.reject(new Error("Network Error"));
