@@ -24,7 +24,7 @@ const portalService = axios.create({
 });
 
 ssoService.interceptors.response.use(
-  (response) => {
+  (response: any) => {
     const { status } = response;
     switch (status) {
       case 200:
@@ -39,7 +39,7 @@ ssoService.interceptors.response.use(
         return Promise.reject(new Error("Network Error"));
     }
   },
-  (error) => {
+  (error: any) => {
     return Promise.reject(error);
   }
 )
@@ -49,13 +49,13 @@ portalService.interceptors.request.use(
     config.headers = getAuthHeader();
     return config;
   },
-  (error) => {
+  (error: any) => {
     Promise.reject(error);
   }
 );
 
 portalService.interceptors.response.use(
-  (response) => {
+  (response: any) => {
     const { status } = response;
     switch (status) {
       case 200:
@@ -70,7 +70,7 @@ portalService.interceptors.response.use(
         return Promise.reject(new Error("Network Error"));
     }
   },
-  (error) => {
+  (error: any) => {
     if (error?.response?.status === 401) {
       toLoginPage(true);
     } else {

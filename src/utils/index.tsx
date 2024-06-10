@@ -69,10 +69,53 @@ const disabled7DaysDate: DatePickerProps["disabledDate"] = (
     return { hrs, mins };
   }
 
+  const getLineChartOptions = (chartTitle: string, xAxisValues:string[],seriesValues:{name:string,values: string[]}[])=> {
+    return {
+      title: {
+        text: chartTitle,
+      },
+      tooltip: {
+        trigger: 'axis',
+      },
+      toolbox: {
+        feature: {
+          saveAsImage: {},
+        },
+      },
+      grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true,
+      },
+      xAxis: [
+        {
+          type: 'category',
+          boundaryGap: false,
+          data: xAxisValues,
+        },
+      ],
+      yAxis: [
+        {
+          type: 'value',
+        },
+      ],
+      series: seriesValues.map((series)=>{
+        return         {
+          name: series.name,
+          type: 'line',
+          areaStyle: { normal: {} },
+          data: series.values,
+        }
+      })
+    }
+  }
+
   export {
     getDatesBetween,
     getDefaultDates,
     disabled7DaysDate,
     convertTimeToDecimal,
-    convertDecimalToTime
+    convertDecimalToTime,
+    getLineChartOptions
   }

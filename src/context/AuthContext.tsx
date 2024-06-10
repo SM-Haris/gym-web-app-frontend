@@ -60,7 +60,7 @@ export const AuthContextProvider = ({
       .then(({ data }: ApiResponse) => {
         navigate("/dashboard");
       })
-      .catch((error)=>{
+      .catch((error: any)=>{
         message.error(error.message)
       })
       .finally(() => {
@@ -80,7 +80,7 @@ export const AuthContextProvider = ({
       .then(({ data }: ApiResponse) => {
         navigate("/dashboard");
       })
-      .catch((error)=>{
+      .catch((error: any)=>{
         message.error(error.message)
       })
       .finally(() => {

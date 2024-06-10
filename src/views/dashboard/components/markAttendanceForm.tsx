@@ -89,7 +89,7 @@ const MarkAttendanceColumnRender: React.FC<MarkAttendanceColumnProps> = ({ recor
           />
         </Space.Compact>
         <Button
-          onClick={onPresentClick}
+          onClick={()=>onPresentClick()}
           style={{
             background:
               record.is_present_today && !isRow ? "#99E099" : "#FFFFFF",
@@ -101,7 +101,7 @@ const MarkAttendanceColumnRender: React.FC<MarkAttendanceColumnProps> = ({ recor
             : "Mark Present"}
         </Button>
         {isRow && (
-          <Button onClick={onAbsentClick}>
+          <Button onClick={()=>onAbsentClick()}>
             Mark Absent
           </Button>
         )}

@@ -27,7 +27,7 @@ const DashboardContent: React.FC = () => {
               <Title level={2}>Location: {state.gymData.location}</Title>            
               <Title level={3}>Gym Statistics</Title>
               <GymStats />
-              <MemberForm/>
+              {state.membersData && <MemberForm/>}
               <MembersTable />
             </>
           ) : (

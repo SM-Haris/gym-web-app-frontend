@@ -48,11 +48,7 @@ const columns: TableProps<DataType>["columns"] = [
 ];
 
 const MembersTable: React.FC = () => {
-  const { state, getMemberDetails } = useContext(DashboardContext);
-
-  useEffect(() => {
-    getMemberDetails();
-  }, [state.gymData,getMemberDetails]);
+  const { state } = useContext(DashboardContext);
 
   return (
     <>
