@@ -104,7 +104,7 @@ const disabled7DaysDate: DatePickerProps["disabledDate"] = (
         return         {
           name: series.name,
           type: 'line',
-          areaStyle: { normal: {} },
+          areaStyle: {},
           data: series.values,
         }
       })

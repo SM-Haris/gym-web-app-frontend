@@ -1,8 +1,14 @@
 import { ReactElement, createContext, useEffect, useReducer } from 'react'
 import { ApiResponse } from '../api'
 import { message } from 'antd'
-import { createGymApi, gymFetchApi } from '../api/gym'
-import { memberCreateApi, memberFetchApi, memberStatsApi } from '../api/member'
+import { createGymApi, gymFetchApi, gymRevenueApi } from '../api/gym'
+import {
+  memberCreateApi,
+  memberDeleteApi,
+  memberFetchApi,
+  memberStatsApi,
+  memberUpdateApi,
+} from '../api/member'
 import {
   getAttendaceHoursApi,
   markAbsentApi,
@@ -16,6 +22,7 @@ type Props = {
   membersData: any[]
   attendanceHours: { [key: string]: any }
   attendanceStats: []
+  revenueDetails: []
 }
 
 type Action = {
@@ -32,6 +39,7 @@ const initialState: Props = {
   membersData: [],
   attendanceHours: {},
   attendanceStats: [],
+  revenueDetails: [],
 }
 
 const reducer: Reducer = (prevState: Props, action: Action): Props => {
@@ -42,6 +50,7 @@ const reducer: Reducer = (prevState: Props, action: Action): Props => {
     case 'membersData':
     case 'attendanceHours':
     case 'attendanceStats':
+    case 'revenueDetails':
       return { ...prevState, [action.type]: action.payload }
     default:
       throw new Error(`Unhandled action type: ${action.type}`)
@@ -56,9 +65,12 @@ type Context = {
   getMemberDetails: () => void
   markPresent: (member_id: string, params: any) => void
   markAbsent: (member_id: string, params: any) => void
-  createMember: (params: any) => void
+  updateMember: (member_id: string, params: any) => Promise<boolean>
+  createMember: (params: any) => Promise<boolean>
+  deleteMember: (member_id: any) => Promise<boolean>
   getAttendanceHours: (member_id: string, params: any) => void
-  getAttendanceStats: (params: any) => void
+  getAttendanceStats: (gym_id: string, params: any) => void
+  getGymRevenue: (gym_id: string, params: any) => void
 }
 
 export const DashboardContext = createContext<Context>({
@@ -69,9 +81,18 @@ export const DashboardContext = createContext<Context>({
   getMemberDetails: () => {},
   markPresent: (member_id: string, params: any) => {},
   markAbsent: (member_id: string, params: any) => {},
-  createMember: (params: any) => {},
+  createMember: (params: any) => {
+    return Promise.reject()
+  },
+  updateMember: (member_id: string, params: any) => {
+    return Promise.reject()
+  },
+  deleteMember: (member_id: any) => {
+    return Promise.reject()
+  },
   getAttendanceHours: (member_id: string, params: any) => {},
-  getAttendanceStats: (params: any) => {}
+  getAttendanceStats: (gym_id: string, params: any) => {},
+  getGymRevenue: (gym_id: string, params: any) => {},
 })
 
 interface ContextProps {
@@ -159,7 +180,7 @@ export const DashboardContextProvider = ({
       type: 'statsLoading',
       payload: true,
     })
-    markPresentApi(member_id, params)
+    markPresentApi(member_id, {...params,gym_id:state.gymData.id})
       .then(() => {
         message.info('Present marked successfuly')
       })
@@ -194,6 +215,44 @@ export const DashboardContextProvider = ({
       })
   }
 
+  const updateMember = async (
+    member_id: string,
+    params: any
+  ): Promise<boolean> => {
+    let isUpdate = false
+
+    dispatch({
+      type: 'statsLoading',
+      payload: true,
+    })
+    await memberUpdateApi(member_id, params)
+      .then(({ data }: ApiResponse) => {
+        console.log(data[1][0])
+        dispatch({
+          type: 'membersData',
+          payload: state.membersData.map((item) =>
+            item.id === member_id
+              ? { ...data[1][0], is_present_today: item.is_present_today }
+              : item
+          ),
+        })
+        message.info('Member updated successfuly')
+        isUpdate = true
+      })
+      .catch((error: any) => {
+        message.error(error.message)
+        isUpdate = false
+      })
+      .finally(() => {
+        dispatch({
+          type: 'statsLoading',
+          payload: false,
+        })
+      })
+
+    return isUpdate
+  }
+
   const getAttendanceHours = (member_id: string, params: any) => {
     dispatch({
       type: 'statsLoading',
@@ -214,17 +273,17 @@ export const DashboardContextProvider = ({
       })
   }
 
-  const getAttendanceStats = (params: any) => {
+  const getAttendanceStats = (gym_id: string, params: any) => {
     dispatch({
       type: 'statsLoading',
       payload: true,
     })
-    memberStatsApi(state.gymData.id, params)
+    memberStatsApi(gym_id, params)
       .then(({ data }: ApiResponse) => {
         dispatch({
           type: 'attendanceStats',
           payload: data,
-        })    
+        })
       })
       .catch((error: any) => {
         message.error(error.message)
@@ -237,16 +296,16 @@ export const DashboardContextProvider = ({
       })
   }
 
-  const createMember = (params: any) => {
+  const getGymRevenue = (gym_id: string, params: any) => {
     dispatch({
       type: 'statsLoading',
       payload: true,
     })
-    memberCreateApi(state.gymData.id, params)
+    gymRevenueApi(gym_id, params)
       .then(({ data }: ApiResponse) => {
         dispatch({
-          type: 'membersData',
-          payload: [...state.membersData, data],
+          type: 'revenueDetails',
+          payload: data,
         })
       })
       .catch((error: any) => {
@@ -258,18 +317,79 @@ export const DashboardContextProvider = ({
           payload: false,
         })
       })
+  }
+
+  const createMember = async (params: any): Promise<boolean> => {
+    let isCreated = false
+
+    dispatch({
+      type: 'statsLoading',
+      payload: true,
+    })
+    await memberCreateApi(state.gymData.id, params)
+      .then(({ data }: ApiResponse) => {
+        dispatch({
+          type: 'membersData',
+          payload: [...state.membersData, data],
+        })
+        isCreated = true
+      })
+      .catch((error: any) => {
+        message.error(error.message)
+        isCreated = false
+      })
+      .finally(() => {
+        dispatch({
+          type: 'statsLoading',
+          payload: false,
+        })
+      })
+
+    return isCreated
+  }
+
+  const deleteMember = async (member_id: any): Promise<boolean> => {
+    let isDeleted = false
+
+    dispatch({
+      type: 'statsLoading',
+      payload: true,
+    })
+    await memberDeleteApi(member_id)
+      .then(({ data }: ApiResponse) => {
+        dispatch({
+          type: 'membersData',
+          payload: state.membersData.filter(
+            (member) => member.id !== member_id
+          ),
+        })
+        isDeleted = true
+      })
+      .catch((error: any) => {
+        isDeleted = false
+      })
+      .finally(() => {
+        dispatch({
+          type: 'statsLoading',
+          payload: false,
+        })
+      })
+
+    return isDeleted
   }
 
   useEffect(() => {
     if (!state.gymData) {
       getGymDetails()
     }
+    // eslint-disable-next-line
   }, [])
 
   useEffect(() => {
     if (state.gymData) {
       getMemberDetails()
     }
+    // eslint-disable-next-line
   }, [state.gymData])
 
   return (
@@ -284,7 +404,10 @@ export const DashboardContextProvider = ({
         markAbsent,
         createMember,
         getAttendanceHours,
-        getAttendanceStats
+        getAttendanceStats,
+        getGymRevenue,
+        deleteMember,
+        updateMember,
       }}
     >
       {children}

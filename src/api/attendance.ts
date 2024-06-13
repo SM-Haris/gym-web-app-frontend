@@ -3,6 +3,7 @@ import { portalService } from "./service";
 export interface AttendanceInterface {
     date: string;
     workout_hours?: string;
+    gym_id: string
 }
 
 export interface FetchAttendaceHoursInterface {

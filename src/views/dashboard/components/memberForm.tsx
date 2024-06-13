@@ -1,33 +1,54 @@
-import { Button, Form, Input, Space, Typography, message } from "antd";
-import { useContext } from "react";
+import { Button, Form, Input, message } from "antd";
+import { useContext, useMemo } from "react";
 import { DashboardContext } from "../../../context/DashboardContext";
-
-const { Title } = Typography;
+import { DataType } from "./membersTable";
 
 export interface MemberFormValues {
   name: string;
   phone_number: string;
   email: string;
+  fee:string;
 }
 
-const MemberForm: React.FC = () => {
-  const { state, createMember } = useContext(DashboardContext);
+export interface MemeberFormProps {
+  memberDefaultValues?: DataType
+  renderType: "edit" | "create"
+  setModalOpen: any
+}
+
+const MemberForm: React.FC<MemeberFormProps> = ({memberDefaultValues, renderType,setModalOpen}) => {
+  const { state, createMember, updateMember } = useContext(DashboardContext);
   const [form] = Form.useForm<MemberFormValues>();
+
+  const isEdit = useMemo(()=>{
+    return renderType === "edit"
+  },[renderType])
 
   const onFinishFailed = (errorInfo: any) => {
     message.error("Failed:", errorInfo);
   };
 
+  const handleFinish = async(data: MemberFormValues)=>{
+    let isCompleted= false
+    
+    if (isEdit && memberDefaultValues)
+      isCompleted = await updateMember(memberDefaultValues.id,data)
+    else 
+      isCompleted  = await createMember(data)
+
+    if (isCompleted)
+      setModalOpen(false)
+  }
+
   return (
-    <>
-        <Title level={3}>Create Member</Title>
       <Form
         form={form}
         layout="vertical"
-        onFinish={createMember}
+        onFinish={(data)=>handleFinish(data)}
         onFinishFailed={onFinishFailed}
+        initialValues={memberDefaultValues}
       >
-        <Space direction="horizontal" align="end">
+        <div style={{display:'flex',flexWrap:'wrap',justifyContent:'space-around'}}>
             <Form.Item
               name="name"
               label="Name"
@@ -55,18 +76,26 @@ const MemberForm: React.FC = () => {
             >
               <Input />
             </Form.Item>
+            <Form.Item
+              name="fee"
+              label="Fee"
+              rules={[
+                { required: true, message: "Please enter member's fee" },
+              ]}
+            >
+              <Input type="number" prefix={'$'}/>
+            </Form.Item>
             <Form.Item>
               <Button
                 type="primary"
                 htmlType="submit"
                 loading={state.statsLoading}
               >
-                Create Member
+                {isEdit?'Update Member':'Create Member'}
               </Button>
             </Form.Item>
-        </Space>
+            </div>
       </Form>
-    </>
   );
 };
 

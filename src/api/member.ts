@@ -26,3 +26,18 @@ export const memberCreateApi = (gym_id: string, params: any) => {
     data: params
   });
 };
+
+export const memberUpdateApi = (member_id: string, params: any) => {
+  return portalService({
+    url: `/member/${member_id}`,
+    method: "patch",
+    data: params
+  });
+};
+
+export const memberDeleteApi = (member_id: string) => {
+  return portalService({
+    url: `/member/${member_id}`,
+    method: "delete",
+  });
+};

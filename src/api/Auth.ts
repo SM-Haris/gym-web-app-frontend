@@ -1,4 +1,4 @@
-import { ssoService } from "./service";
+import { portalService, ssoService } from "./service";
 
 export type LoginBody = {
   email: string;
@@ -25,5 +25,22 @@ export const signupApi = (signupBody: SignupBody) => {
     url: "/auth/signup",
     method: "post",
     data: signupBody,
+  });
+};
+
+export const checkoutApi = () => {
+  return portalService({
+    url: "/stripe/create-checkout-session",
+    method: "post",
+    data: {
+      lookup_key: "GymUp_Subscription_-852faeb"
+    },
+  });
+};
+
+export const getUserApi = () => {
+  return portalService({
+    url: "/user/me",
+    method: "get",
   });
 };

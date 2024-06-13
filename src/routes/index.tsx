@@ -3,6 +3,7 @@ import Dashboard from "../views/dashboard";
 import Home from "../views/home";
 import Login from "../views/login";
 import SignupPage from "../views/signup";
+import SuccessDisplay from "../views/success";
 
 const routes = [
   {
@@ -13,6 +14,7 @@ const routes = [
       { path: "/about", element: <About /> },
       { path: "/login", element: <Login /> },
       { path: "/signup", element: <SignupPage /> },
+      { path: "/success", element: <SuccessDisplay /> },
       { path: "/dashboard", element: <Dashboard /> },
     ],
   },
