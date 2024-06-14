@@ -6,7 +6,6 @@ import MarkAttendanceColumnRender, {
 } from './markAttendanceForm'
 import { DashboardContext } from '../../../context/DashboardContext'
 import LineChart from './lineChart'
-import { DeleteFilled } from '@ant-design/icons'
 
 const RowRender: React.FC<MarkAttendanceColumnProps> = ({
   record,
