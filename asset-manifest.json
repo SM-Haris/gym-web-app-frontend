@@ -1,0 +1,19 @@
+{
+  "files": {
+    "main.css": "/static/css/main.1893d57c.css",
+    "main.js": "/static/js/main.99a0bc06.js",
+    "static/js/453.d2ac3b57.chunk.js": "/static/js/453.d2ac3b57.chunk.js",
+    "static/media/sva-gym017.jpg": "/static/media/sva-gym017.de921df9744ce9a738cd.jpg",
+    "static/media/System-Analysis.jpg": "/static/media/System-Analysis.91bfabd036dbf18b1f50.jpg",
+    "static/media/Time_Management_04-01_generated.jpg": "/static/media/Time_Management_04-01_generated.b730917f837e1b007b1a.jpg",
+    "static/media/634_generated.jpg": "/static/media/634_generated.7b25b8f52fd8c79f949e.jpg",
+    "index.html": "/index.html",
+    "main.1893d57c.css.map": "/static/css/main.1893d57c.css.map",
+    "main.99a0bc06.js.map": "/static/js/main.99a0bc06.js.map",
+    "453.d2ac3b57.chunk.js.map": "/static/js/453.d2ac3b57.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.1893d57c.css",
+    "static/js/main.99a0bc06.js"
+  ]
+}
