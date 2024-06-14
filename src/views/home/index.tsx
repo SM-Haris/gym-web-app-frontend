@@ -1,10 +1,10 @@
 import React from "react";
-import { Content } from "./content";
+import HomeContent from "./content";
 
 const Home: React.FC = () => {
   return (
     <>
-      <Content />
+      <HomeContent />
     </>
   );
 };
