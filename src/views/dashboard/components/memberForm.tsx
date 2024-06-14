@@ -1,4 +1,4 @@
-import { Button, Form, Input, message } from "antd";
+import { Button, Form, Input } from "antd";
 import { useContext, useMemo } from "react";
 import { DashboardContext } from "../../../context/DashboardContext";
 import { DataType } from "./membersTable";
@@ -24,10 +24,6 @@ const MemberForm: React.FC<MemeberFormProps> = ({memberDefaultValues, renderType
     return renderType === "edit"
   },[renderType])
 
-  const onFinishFailed = (errorInfo: any) => {
-    message.error("Failed:", errorInfo);
-  };
-
   const handleFinish = async(data: MemberFormValues)=>{
     let isCompleted= false
     
@@ -45,7 +41,6 @@ const MemberForm: React.FC<MemeberFormProps> = ({memberDefaultValues, renderType
         form={form}
         layout="vertical"
         onFinish={(data)=>handleFinish(data)}
-        onFinishFailed={onFinishFailed}
         initialValues={memberDefaultValues}
       >
         <div style={{display:'flex',flexWrap:'wrap',justifyContent:'space-around'}}>

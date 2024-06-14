@@ -11,12 +11,8 @@ interface SignUpFormValues {
 }
 
 const SignupPage: React.FC = () => {
-  const { signup, state } = useContext(AuthContext)
+  const { checkout, state } = useContext(AuthContext)
   const [form] = Form.useForm<SignUpFormValues>()
-
-  const onFinishFailed = (errorInfo: any) => {
-    console.log('Failed:', errorInfo)
-  }
 
   return (
     <div
@@ -30,8 +26,7 @@ const SignupPage: React.FC = () => {
       <Form
         form={form}
         layout="vertical"
-        onFinish={signup}
-        onFinishFailed={onFinishFailed}
+        onFinish={checkout}
       >
         <Typography.Title level={2}>SignUp</Typography.Title>
 

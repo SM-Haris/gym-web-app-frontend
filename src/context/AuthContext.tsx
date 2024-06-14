@@ -1,4 +1,4 @@
-import { ReactElement, createContext, useEffect, useReducer } from 'react'
+import { ReactElement, createContext, useReducer } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   LoginBody,
@@ -9,7 +9,7 @@ import {
   checkoutApi,
   removeToken,
   getUserApi,
-  getToken,
+  deleteUserApi,
 } from '../api'
 import { message } from 'antd'
 
@@ -52,8 +52,9 @@ type Context = {
   login: (params: LoginBody) => void
   logout: () => void
   getUser: () => void
+  deleteUser: (user_id: string) => void
   signup: (params: SignupBody) => void
-  checkout: () => void
+  checkout: (params: SignupBody) => void
 }
 
 export const AuthContext = createContext<Context>({
@@ -62,8 +63,9 @@ export const AuthContext = createContext<Context>({
   login: (params: LoginBody) => {},
   logout: () => {},
   getUser: () => {},
+  deleteUser: (user_id: string) => {},
   signup: (params: SignupBody) => {},
-  checkout: () => {},
+  checkout: (params: SignupBody) => {},
 })
 
 interface ContextProps {
@@ -108,7 +110,6 @@ export const AuthContextProvider = ({
 
     signupApi(params)
       .then(() => {
-        checkout()
       })
       .catch((error: any) => {
         message.error(error.message)
@@ -121,13 +122,33 @@ export const AuthContextProvider = ({
       })
   }
 
-  const checkout = () => {
+  const deleteUser = (user_id: string) => {
+    dispatch({
+      type: 'loading',
+      payload: true,
+    })
+
+    deleteUserApi(user_id)
+      .then(() => {})
+      .catch((error: any) => {
+        message.error(error.message)
+      })
+      .finally(() => {
+        dispatch({
+          type: 'loading',
+          payload: false,
+        })
+      })
+  }
+
+  const checkout = (params: SignupBody) => {
     dispatch({
       type: 'loading',
       payload: true,
     })
     checkoutApi()
       .then(({ data }: ApiResponse) => {
+        localStorage.setItem('sign_up_data', JSON.stringify(params))
         window.location.href = data.url
       })
       .catch((error: any) => {
@@ -164,11 +185,10 @@ export const AuthContextProvider = ({
       })
   }
 
-
   const logout = () => {
     dispatch({
       type: 'user',
-      payload:null,
+      payload: null,
     })
     removeToken()
     navigate('/home')
@@ -183,7 +203,8 @@ export const AuthContextProvider = ({
         signup,
         checkout,
         logout,
-        getUser
+        getUser,
+        deleteUser,
       }}
     >
       {children}

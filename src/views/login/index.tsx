@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Form, Input, Button, Typography, Space, message } from "antd";
+import { Form, Input, Button, Typography, Space } from "antd";
 import { Link } from "react-router-dom"; // Import Link for routing
 import { AuthContext } from "../../context/AuthContext";
 
@@ -11,10 +11,6 @@ interface LoginFormValues {
 const LoginPage: React.FC = () => {
   const { login, state } = useContext(AuthContext);
   const [form] = Form.useForm<LoginFormValues>();
-
-  const onFinishFailed = (errorInfo: any) => {
-    message.error("Failed:", errorInfo);
-  };
 
   return (
     <div
@@ -29,7 +25,6 @@ const LoginPage: React.FC = () => {
         form={form}
         layout="vertical"
         onFinish={login}
-        onFinishFailed={onFinishFailed}
       >
         <Typography.Title level={2}>Login</Typography.Title>
 

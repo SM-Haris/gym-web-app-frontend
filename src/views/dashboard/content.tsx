@@ -6,6 +6,7 @@ import { DashboardContext } from '../../context/DashboardContext'
 import { LoadingOutlined } from '@ant-design/icons'
 import GymForm from './components/gymForm'
 import EditMemberModal from './components/editMemberModal'
+import GymInformation from './components/gymInfo'
 
 const { Content } = Layout
 const { Title } = Typography
@@ -23,8 +24,7 @@ const DashboardContent: React.FC = () => {
         <>
           {!state.loading && state.gymData ? (
             <>
-              <Title level={3}>Name: {state.gymData.name}</Title>
-              <Title level={2}>Location: {state.gymData.location}</Title>
+              <GymInformation/>
               <Title level={3}>Gym Statistics</Title>
               <GymStats />
               <Flex

@@ -1,7 +1,7 @@
 import { ReactElement, createContext, useEffect, useReducer } from 'react'
 import { ApiResponse } from '../api'
 import { message } from 'antd'
-import { createGymApi, gymFetchApi, gymRevenueApi } from '../api/gym'
+import { createGymApi, gymFetchApi, gymRevenueApi, updateGymApi } from '../api/gym'
 import {
   memberCreateApi,
   memberDeleteApi,
@@ -62,6 +62,7 @@ type Context = {
   dispatch: any
   getGymDetails: () => void
   createGym: (params: any) => void
+  updateGym: (gym_id:string,params: any) => void
   getMemberDetails: () => void
   markPresent: (member_id: string, params: any) => void
   markAbsent: (member_id: string, params: any) => void
@@ -78,6 +79,7 @@ export const DashboardContext = createContext<Context>({
   dispatch: null,
   getGymDetails: () => {},
   createGym: (params: any) => {},
+  updateGym: (gym_id:string,params: any) => {},
   getMemberDetails: () => {},
   markPresent: (member_id: string, params: any) => {},
   markAbsent: (member_id: string, params: any) => {},
@@ -139,6 +141,30 @@ export const DashboardContextProvider = ({
           dispatch({
             type: 'gymData',
             payload: data,
+          })
+      })
+      .catch((error: any) => {
+        message.error(error.message)
+      })
+      .finally(() => {
+        dispatch({
+          type: 'loading',
+          payload: false,
+        })
+      })
+  }
+
+  const updateGym = (gym_id:string,params: any) => {
+    dispatch({
+      type: 'loading',
+      payload: true,
+    })
+    updateGymApi(gym_id,params)
+      .then(({ data }: ApiResponse) => {
+        if (data)
+          dispatch({
+            type: 'gymData',
+            payload: data[1][0],
           })
       })
       .catch((error: any) => {
@@ -227,7 +253,6 @@ export const DashboardContextProvider = ({
     })
     await memberUpdateApi(member_id, params)
       .then(({ data }: ApiResponse) => {
-        console.log(data[1][0])
         dispatch({
           type: 'membersData',
           payload: state.membersData.map((item) =>
@@ -400,6 +425,7 @@ export const DashboardContextProvider = ({
         getGymDetails,
         getMemberDetails,
         createGym,
+        updateGym,
         markPresent,
         markAbsent,
         createMember,

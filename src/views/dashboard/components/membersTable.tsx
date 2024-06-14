@@ -1,4 +1,10 @@
-import { Flex, Table, TableProps, Typography } from 'antd'
+import {
+  ConfigProvider,
+  Flex,
+  Table,
+  TableProps,
+  Typography,
+} from 'antd'
 import RowRender from './rowRender'
 import { useContext, useState } from 'react'
 import { DashboardContext } from '../../../context/DashboardContext'
@@ -42,11 +48,15 @@ const MarkAttendanceColumn: React.FC<MarkAttendanceColumnProps> = ({
           editModalOpen={editModalOpen}
           setEditModalOpen={setEditModalOpen}
           member={record}
-          title='Update Memeber'
-          renderType='edit'
+          title="Update Memeber"
+          renderType="edit"
         />
       )}
-      <EditOutlined onClick={()=>{setEditModalOpen(true)}}/>
+      <EditOutlined
+        onClick={() => {
+          setEditModalOpen(true)
+        }}
+      />
     </Flex>
   )
 }
@@ -85,16 +95,24 @@ const MembersTable: React.FC = () => {
   return (
     <>
       <Title level={3}>Members Attendance Table</Title>
-      <Table
-        columns={columns}
-        dataSource={state.membersData}
-        rowKey={'id'}
-        expandable={{
-          expandedRowRender: (record: DataType) => (
-            <RowRender record={record} renderType="row" />
-          ),
+      <ConfigProvider
+        theme={{
+          token: {
+            borderRadius: 20,
+          },
         }}
-      />
+      >
+        <Table
+          columns={columns}
+          dataSource={state.membersData}
+          rowKey={'id'}
+          expandable={{
+            expandedRowRender: (record: DataType) => (
+              <RowRender record={record} renderType="row" />
+            ),
+          }}
+        />
+      </ConfigProvider>
     </>
   )
 }

@@ -33,7 +33,7 @@ export const checkoutApi = () => {
     url: "/stripe/create-checkout-session",
     method: "post",
     data: {
-      lookup_key: "GymUp_Subscription_-852faeb"
+      lookup_key: process.env.PRODUCT_LOOKUP_KEY
     },
   });
 };
@@ -42,5 +42,13 @@ export const getUserApi = () => {
   return portalService({
     url: "/user/me",
     method: "get",
+  });
+};
+
+
+export const deleteUserApi = (user_id: string) => {
+  return portalService({
+    url: `/user/${user_id}`,
+    method: "delete",
   });
 };

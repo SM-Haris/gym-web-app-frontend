@@ -111,11 +111,24 @@ const disabled7DaysDate: DatePickerProps["disabledDate"] = (
     }
   }
 
+  const getAvatarName = (name: string) => {
+    if (!name)
+      return '?'
+
+    const splitString = name.split(' ')
+
+    if (splitString.length > 1) 
+      return splitString[0].charAt(0).toUpperCase()+splitString[1].charAt(0).toUpperCase()
+
+    return splitString[0].charAt(0).toUpperCase()
+  }
+
   export {
     getDatesBetween,
     getDefaultDates,
     disabled7DaysDate,
     convertTimeToDecimal,
     convertDecimalToTime,
-    getLineChartOptions
+    getLineChartOptions,
+    getAvatarName,
   }

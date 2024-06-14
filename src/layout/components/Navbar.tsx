@@ -4,6 +4,7 @@ import type { MenuProps } from 'antd'
 import { Link } from 'react-router-dom'
 import { AuthContext } from '../../context/AuthContext'
 import { getToken } from '../../api'
+import { getAvatarName } from '../../utils'
 
 const Navbar: React.FC = () => {
   const { state, logout, getUser } = useContext(AuthContext)
@@ -29,9 +30,11 @@ const Navbar: React.FC = () => {
   }
 
   useEffect(()=>{
-    if(getToken() && !state.user){
+    console.log(window.location.href)
+    if(getToken() && !state.user && !window.location.href.includes('home')){
       getUser()
     }
+    // eslint-disable-next-line
   },[])
 
   return (
@@ -51,7 +54,7 @@ const Navbar: React.FC = () => {
       <Col span={8} style={{ display: 'flex', justifyContent: 'flex-end' }}>
         {state.user ? (
           <Dropdown menu={{ items, onClick }}>
-            <Avatar>{state.user.name}</Avatar>
+            <Avatar>{getAvatarName(state.user.name as string)}</Avatar>
           </Dropdown>
         ) : (
           <Link to="/login">
