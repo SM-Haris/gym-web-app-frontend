@@ -3,15 +3,15 @@ import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 const CancelPage: React.FC = () => {
-    const navigate = useNavigate()
-    
-    useEffect(()=>{
-        setTimeout(() => {
-            navigate('/login')
-          }, 3000)
-    },[])
+  const navigate = useNavigate()
 
-    return (
+  useEffect(() => {
+    setTimeout(() => {
+      navigate('/login')
+    }, 3000)
+  }, [])
+
+  return (
     <div
       style={{
         flexDirection: 'column',

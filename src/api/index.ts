@@ -1,6 +1,6 @@
-import { AxiosResponse as ApiResponse } from "axios";
+import { AxiosResponse as ApiResponse } from 'axios'
 
-export * from './Auth';
-export * from "./sso";
+export * from './Auth'
+export * from './sso'
 
-export type { ApiResponse };
+export type { ApiResponse }

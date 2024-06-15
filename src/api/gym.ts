@@ -1,4 +1,5 @@
-import { FetchAttendaceHoursInterface } from './member'
+import { FetchStatsInterface } from '../interfaces/attendance'
+import { GymInterface } from '../interfaces/gym'
 import { portalService } from './service'
 
 export const gymFetchApi = () => {
@@ -8,7 +9,7 @@ export const gymFetchApi = () => {
   })
 }
 
-export const createGymApi = (params: any) => {
+export const createGymApi = (params: GymInterface) => {
   return portalService({
     url: '/gym',
     method: 'post',
@@ -16,7 +17,7 @@ export const createGymApi = (params: any) => {
   })
 }
 
-export const updateGymApi = (gym_id: string,params: any) => {
+export const updateGymApi = (gym_id: string, params: GymInterface) => {
   return portalService({
     url: `/gym/${gym_id}`,
     method: 'patch',
@@ -24,10 +25,7 @@ export const updateGymApi = (gym_id: string,params: any) => {
   })
 }
 
-export const gymRevenueApi = (
-  gym_id: string,
-  params: FetchAttendaceHoursInterface
-) => {
+export const gymRevenueApi = (gym_id: string, params: FetchStatsInterface) => {
   return portalService({
     url: `/gym/revenue/${gym_id}/from/${params.from_date}/to/${params.to_date}`,
     method: 'get',

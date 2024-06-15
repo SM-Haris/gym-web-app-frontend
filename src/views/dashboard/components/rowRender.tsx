@@ -1,11 +1,10 @@
 import React, { useContext } from 'react'
 import { Flex } from 'antd'
 import Typography from 'antd/es/typography/Typography'
-import MarkAttendanceColumnRender, {
-  MarkAttendanceColumnProps,
-} from './markAttendanceForm'
+import MarkAttendanceColumnRender from './markAttendanceForm'
 import { DashboardContext } from '../../../context/DashboardContext'
 import LineChart from './lineChart'
+import { MarkAttendanceColumnProps } from '../../../interfaces/dashboard'
 
 const RowRender: React.FC<MarkAttendanceColumnProps> = ({
   record,

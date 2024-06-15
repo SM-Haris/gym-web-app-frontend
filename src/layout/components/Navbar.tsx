@@ -1,13 +1,17 @@
 import { Avatar, Button, Col, Dropdown, Row } from 'antd'
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import type { MenuProps } from 'antd'
 import { Link } from 'react-router-dom'
 import { AuthContext } from '../../context/AuthContext'
 import { getToken } from '../../api'
 import { getAvatarName } from '../../utils'
+import DeleteAccountModal from './deleteAccountModel'
+import UpdateUserModal from './updateUserModal'
 
 const Navbar: React.FC = () => {
   const { state, logout, getUser } = useContext(AuthContext)
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false)
+  const [updateModalOpen, setUpdateModalOpen] = useState(false)
 
   const items: MenuProps['items'] = [
     {
@@ -15,27 +19,39 @@ const Navbar: React.FC = () => {
       key: '1',
     },
     {
-      label: 'Logout',
+      label: 'Delete Account',
       key: '2',
+      danger: true,
+    },
+    {
+      label: 'Logout',
+      key: '3',
     },
   ]
 
   const onClick: MenuProps['onClick'] = ({ key }) => {
     switch (key) {
       case '1':
+        setUpdateModalOpen(true)
         break
       case '2':
+        setDeleteModalOpen(true)
+        break
+      case '3':
         logout()
     }
   }
 
-  useEffect(()=>{
-    console.log(window.location.href)
-    if(getToken() && !state.user && !window.location.href.includes('home')){
+  useEffect(() => {
+    if (
+      getToken() &&
+      !state.user &&
+      window.location.href.includes('dashboard')
+    ) {
       getUser()
     }
     // eslint-disable-next-line
-  },[])
+  }, [])
 
   return (
     <Row
@@ -53,9 +69,23 @@ const Navbar: React.FC = () => {
       </Link>
       <Col span={8} style={{ display: 'flex', justifyContent: 'flex-end' }}>
         {state.user ? (
-          <Dropdown menu={{ items, onClick }}>
-            <Avatar>{getAvatarName(state.user.name as string)}</Avatar>
-          </Dropdown>
+          <>
+            <Dropdown menu={{ items, onClick }}>
+              <Avatar>{getAvatarName(state.user.name as string)}</Avatar>
+            </Dropdown>
+            {deleteModalOpen && (
+              <DeleteAccountModal
+                deleteModalOpen={deleteModalOpen}
+                setDeleteModalOpen={setDeleteModalOpen}
+              />
+            )}
+            {updateModalOpen && (
+              <UpdateUserModal
+                updateModalOpen={updateModalOpen}
+                setUpdateModalOpen={setUpdateModalOpen}
+              />
+            )}
+          </>
         ) : (
           <Link to="/login">
             <Button

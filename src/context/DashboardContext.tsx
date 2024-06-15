@@ -1,7 +1,12 @@
 import { ReactElement, createContext, useEffect, useReducer } from 'react'
 import { ApiResponse } from '../api'
 import { message } from 'antd'
-import { createGymApi, gymFetchApi, gymRevenueApi, updateGymApi } from '../api/gym'
+import {
+  createGymApi,
+  gymFetchApi,
+  gymRevenueApi,
+  updateGymApi,
+} from '../api/gym'
 import {
   memberCreateApi,
   memberDeleteApi,
@@ -14,12 +19,19 @@ import {
   markAbsentApi,
   markPresentApi,
 } from '../api/attendance'
+import { GymDataInterface, GymInterface } from '../interfaces/gym'
+import { MemberDataInterface, MemberInterface } from '../interfaces/member'
+import {
+  AttendanceInterface,
+  FetchStatsInterface,
+} from '../interfaces/attendance'
+import dayjs from 'dayjs'
 
 type Props = {
-  gymData: any
+  gymData: GymDataInterface | null
   loading: boolean
   statsLoading: boolean
-  membersData: any[]
+  membersData: MemberDataInterface[] | []
   attendanceHours: { [key: string]: any }
   attendanceStats: []
   revenueDetails: []
@@ -61,40 +73,40 @@ type Context = {
   state: Props
   dispatch: any
   getGymDetails: () => void
-  createGym: (params: any) => void
-  updateGym: (gym_id:string,params: any) => void
+  createGym: (params: GymInterface) => void
+  updateGym: (params: GymInterface) => void
   getMemberDetails: () => void
-  markPresent: (member_id: string, params: any) => void
-  markAbsent: (member_id: string, params: any) => void
-  updateMember: (member_id: string, params: any) => Promise<boolean>
-  createMember: (params: any) => Promise<boolean>
-  deleteMember: (member_id: any) => Promise<boolean>
-  getAttendanceHours: (member_id: string, params: any) => void
-  getAttendanceStats: (gym_id: string, params: any) => void
-  getGymRevenue: (gym_id: string, params: any) => void
+  markPresent: (member_id: string, params: AttendanceInterface) => void
+  markAbsent: (member_id: string, params: AttendanceInterface) => void
+  updateMember: (member_id: string, params: MemberInterface) => Promise<boolean>
+  createMember: (params: MemberInterface) => Promise<boolean>
+  deleteMember: (member_id: string) => Promise<boolean>
+  getAttendanceHours: (member_id: string, params: FetchStatsInterface) => void
+  getAttendanceStats: (gym_id: string, params: FetchStatsInterface) => void
+  getGymRevenue: (gym_id: string, params: FetchStatsInterface) => void
 }
 
 export const DashboardContext = createContext<Context>({
   state: initialState,
   dispatch: null,
   getGymDetails: () => {},
-  createGym: (params: any) => {},
-  updateGym: (gym_id:string,params: any) => {},
+  createGym: (params: GymInterface) => {},
+  updateGym: (params: GymInterface) => {},
   getMemberDetails: () => {},
-  markPresent: (member_id: string, params: any) => {},
-  markAbsent: (member_id: string, params: any) => {},
-  createMember: (params: any) => {
+  markPresent: (member_id: string, params: AttendanceInterface) => {},
+  markAbsent: (member_id: string, params: AttendanceInterface) => {},
+  createMember: (params: MemberInterface) => {
     return Promise.reject()
   },
-  updateMember: (member_id: string, params: any) => {
+  updateMember: (member_id: string, params: MemberInterface) => {
     return Promise.reject()
   },
-  deleteMember: (member_id: any) => {
+  deleteMember: (member_id: string) => {
     return Promise.reject()
   },
-  getAttendanceHours: (member_id: string, params: any) => {},
-  getAttendanceStats: (gym_id: string, params: any) => {},
-  getGymRevenue: (gym_id: string, params: any) => {},
+  getAttendanceHours: (member_id: string, params: FetchStatsInterface) => {},
+  getAttendanceStats: (gym_id: string, params: FetchStatsInterface) => {},
+  getGymRevenue: (gym_id: string, params: FetchStatsInterface) => {},
 })
 
 interface ContextProps {
@@ -130,7 +142,7 @@ export const DashboardContextProvider = ({
       })
   }
 
-  const createGym = (params: any) => {
+  const createGym = (params: GymInterface) => {
     dispatch({
       type: 'loading',
       payload: true,
@@ -154,12 +166,14 @@ export const DashboardContextProvider = ({
       })
   }
 
-  const updateGym = (gym_id:string,params: any) => {
+  const updateGym = (params: GymInterface) => {
+    if (!state.gymData) return
+
     dispatch({
       type: 'loading',
       payload: true,
     })
-    updateGymApi(gym_id,params)
+    updateGymApi(state.gymData.id, params)
       .then(({ data }: ApiResponse) => {
         if (data)
           dispatch({
@@ -179,6 +193,8 @@ export const DashboardContextProvider = ({
   }
 
   const getMemberDetails = () => {
+    if (!state.gymData) return
+
     dispatch({
       type: 'statsLoading',
       payload: true,
@@ -201,13 +217,24 @@ export const DashboardContextProvider = ({
       })
   }
 
-  const markPresent = (member_id: string, params: any) => {
+  const markPresent = (member_id: string, params: AttendanceInterface) => {
+    if (!state.gymData) return
+
     dispatch({
       type: 'statsLoading',
       payload: true,
     })
-    markPresentApi(member_id, {...params,gym_id:state.gymData.id})
+    markPresentApi(member_id, { ...params, gym_id: state.gymData.id })
       .then(() => {
+        if (params.date === dayjs().toISOString().split('T')[0])
+          dispatch({
+            type: 'membersData',
+            payload: state.membersData.map((item) =>
+              item.id === member_id
+                ? { ...item, is_present_today: !item.is_present_today }
+                : item
+            ),
+          })
         message.info('Present marked successfuly')
       })
       .catch((error: any) => {
@@ -221,13 +248,22 @@ export const DashboardContextProvider = ({
       })
   }
 
-  const markAbsent = (member_id: string, params: any) => {
+  const markAbsent = (member_id: string, params: AttendanceInterface) => {
     dispatch({
       type: 'statsLoading',
       payload: true,
     })
     markAbsentApi(member_id, params)
       .then(() => {
+        if (params.date === dayjs().toISOString().split('T')[0])
+          dispatch({
+            type: 'membersData',
+            payload: state.membersData.map((item) =>
+              item.id === member_id
+                ? { ...item, is_present_today: !item.is_present_today }
+                : item
+            ),
+          })
         message.info('Absent marked successfuly')
       })
       .catch((error: any) => {
@@ -243,7 +279,7 @@ export const DashboardContextProvider = ({
 
   const updateMember = async (
     member_id: string,
-    params: any
+    params: MemberInterface
   ): Promise<boolean> => {
     let isUpdate = false
 
@@ -278,7 +314,10 @@ export const DashboardContextProvider = ({
     return isUpdate
   }
 
-  const getAttendanceHours = (member_id: string, params: any) => {
+  const getAttendanceHours = (
+    member_id: string,
+    params: FetchStatsInterface
+  ) => {
     dispatch({
       type: 'statsLoading',
       payload: true,
@@ -298,7 +337,7 @@ export const DashboardContextProvider = ({
       })
   }
 
-  const getAttendanceStats = (gym_id: string, params: any) => {
+  const getAttendanceStats = (gym_id: string, params: FetchStatsInterface) => {
     dispatch({
       type: 'statsLoading',
       payload: true,
@@ -321,7 +360,7 @@ export const DashboardContextProvider = ({
       })
   }
 
-  const getGymRevenue = (gym_id: string, params: any) => {
+  const getGymRevenue = (gym_id: string, params: FetchStatsInterface) => {
     dispatch({
       type: 'statsLoading',
       payload: true,
@@ -344,7 +383,9 @@ export const DashboardContextProvider = ({
       })
   }
 
-  const createMember = async (params: any): Promise<boolean> => {
+  const createMember = async (params: MemberInterface): Promise<boolean> => {
+    if (!state.gymData) return false
+
     let isCreated = false
 
     dispatch({
@@ -373,7 +414,7 @@ export const DashboardContextProvider = ({
     return isCreated
   }
 
-  const deleteMember = async (member_id: any): Promise<boolean> => {
+  const deleteMember = async (member_id: string): Promise<boolean> => {
     let isDeleted = false
 
     dispatch({

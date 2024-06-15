@@ -1,30 +1,15 @@
-import {
-  ConfigProvider,
-  Flex,
-  Table,
-  TableProps,
-  Typography,
-} from 'antd'
+import { Flex, Table, TableProps, Typography } from 'antd'
 import RowRender from './rowRender'
 import { useContext, useState } from 'react'
 import { DashboardContext } from '../../../context/DashboardContext'
-import MarkAttendanceColumnRender, {
-  MarkAttendanceColumnProps,
-} from './markAttendanceForm'
+import MarkAttendanceColumnRender from './markAttendanceForm'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import DeleteMemberModal from './deleteMemeberModal'
 import EditMemberModal from './editMemberModal'
+import { MarkAttendanceColumnProps } from '../../../interfaces/dashboard'
+import { MemberDataInterface } from '../../../interfaces/member'
 
 const { Title } = Typography
-
-export interface DataType {
-  id: string
-  name: string
-  email: string
-  address: string
-  is_present_today: boolean
-  created_at: string
-}
 
 const MarkAttendanceColumn: React.FC<MarkAttendanceColumnProps> = ({
   record,
@@ -61,7 +46,7 @@ const MarkAttendanceColumn: React.FC<MarkAttendanceColumnProps> = ({
   )
 }
 
-const columns: TableProps<DataType>['columns'] = [
+const columns: TableProps<MemberDataInterface>['columns'] = [
   {
     title: 'Name',
     dataIndex: 'name',
@@ -82,7 +67,7 @@ const columns: TableProps<DataType>['columns'] = [
     title: 'Mark Attendance',
     key: 'tags',
     dataIndex: 'tags',
-    render: (_, record: DataType) => (
+    render: (_, record: MemberDataInterface) => (
       <MarkAttendanceColumn record={record} renderType="column" />
     ),
   },
@@ -95,24 +80,16 @@ const MembersTable: React.FC = () => {
   return (
     <>
       <Title level={3}>Members Attendance Table</Title>
-      <ConfigProvider
-        theme={{
-          token: {
-            borderRadius: 20,
-          },
+      <Table
+        columns={columns}
+        dataSource={state.membersData}
+        rowKey={'id'}
+        expandable={{
+          expandedRowRender: (record: MemberDataInterface) => (
+            <RowRender record={record} renderType="row" />
+          ),
         }}
-      >
-        <Table
-          columns={columns}
-          dataSource={state.membersData}
-          rowKey={'id'}
-          expandable={{
-            expandedRowRender: (record: DataType) => (
-              <RowRender record={record} renderType="row" />
-            ),
-          }}
-        />
-      </ConfigProvider>
+      />
     </>
   )
 }

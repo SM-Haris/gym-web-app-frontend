@@ -1,5 +1,5 @@
-import { Col, Flex} from 'antd'
-import { useContext} from 'react'
+import { Col, Flex } from 'antd'
+import { useContext } from 'react'
 import LineChart from './lineChart'
 import { DashboardContext } from '../../../context/DashboardContext'
 
@@ -11,20 +11,24 @@ const GymStats: React.FC = () => {
     <>
       <Flex vertical={false}>
         <Col style={{ width: '50%' }}>
-          <LineChart
-            chartTitle="Attendance Statistics"
-            seriesValues={state.attendanceStats}
-            fetchChartData={getAttendanceStats}
-            recordId={state.gymData.id}
-          />
+          {state.gymData && (
+            <LineChart
+              chartTitle="Attendance Statistics"
+              seriesValues={state.attendanceStats}
+              fetchChartData={getAttendanceStats}
+              recordId={state.gymData.id}
+            />
+          )}
         </Col>
         <Col style={{ width: '50%' }}>
-          <LineChart
-            chartTitle="Revenue"
-            seriesValues={state.revenueDetails}
-            fetchChartData={getGymRevenue}
-            recordId={state.gymData.id}
-          />
+          {state.gymData && (
+            <LineChart
+              chartTitle="Revenue"
+              seriesValues={state.revenueDetails}
+              fetchChartData={getGymRevenue}
+              recordId={state.gymData.id}
+            />
+          )}
         </Col>
       </Flex>
     </>

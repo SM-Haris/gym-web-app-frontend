@@ -1,48 +1,51 @@
 import {
-    Button,
-    DatePicker,
-    Flex,
-    Input,
-    InputNumberProps,
-    Slider,
-    Space,
-  } from "antd";
-  import {  useContext, useMemo, useState } from "react";
-  import { convertDecimalToTime, convertTimeToDecimal } from "../../../utils";
-  import dayjs from "dayjs";
-import { DataType } from "./membersTable";
-import { DashboardContext } from "../../../context/DashboardContext";
+  Button,
+  DatePicker,
+  Flex,
+  Input,
+  InputNumberProps,
+  Slider,
+  Space,
+} from 'antd'
+import { useContext, useMemo, useState } from 'react'
+import { convertDecimalToTime, convertTimeToDecimal } from '../../../utils'
+import dayjs from 'dayjs'
+import { DashboardContext } from '../../../context/DashboardContext'
+import { MarkAttendanceColumnProps } from '../../../interfaces/dashboard'
 
-
-export interface MarkAttendanceColumnProps {
-    record: DataType;
-    renderType: "row" | "column";
-  }  
-
-const MarkAttendanceColumnRender: React.FC<MarkAttendanceColumnProps> = ({ record, renderType }) => {
-  const {markPresent, markAbsent} = useContext(DashboardContext)
+const MarkAttendanceColumnRender: React.FC<MarkAttendanceColumnProps> = ({
+  record,
+  renderType,
+}) => {
+  const { markPresent, markAbsent } = useContext(DashboardContext)
 
   const isRow = useMemo(() => {
-    return renderType === "row";
-  }, [renderType]);
+    return renderType === 'row'
+  }, [renderType])
 
-  const [pickerDate, setPickerDate] = useState(dayjs().format('YYYY-MM-DD'));
+  const [pickerDate, setPickerDate] = useState(dayjs().format('YYYY-MM-DD'))
 
   const [time, setTime] = useState<{ hrs: number; mins: number }>({
     hrs: 0,
     mins: 30,
-  });
+  })
 
-  const onSliderChange: InputNumberProps["onChange"] = (value) => {
-    setTime(convertDecimalToTime(value as number));
-  };
+  const onSliderChange: InputNumberProps['onChange'] = (value) => {
+    setTime(convertDecimalToTime(value as number))
+  }
 
   const onAbsentClick = () => {
-    markAbsent(record.id,{date:pickerDate,workout_hours: convertTimeToDecimal(time)})
+    markAbsent(record.id, {
+      date: pickerDate,
+      workout_hours: convertTimeToDecimal(time),
+    })
   }
 
   const onPresentClick = () => {
-    markPresent(record.id,{date:pickerDate,workout_hours: convertTimeToDecimal(time)})
+    markPresent(record.id, {
+      date: pickerDate,
+      workout_hours: convertTimeToDecimal(time),
+    })
   }
 
   return (
@@ -54,21 +57,21 @@ const MarkAttendanceColumnRender: React.FC<MarkAttendanceColumnProps> = ({ recor
             maxDate={dayjs()}
             allowClear={false}
             minDate={dayjs(record.created_at)}
-            onChange={(date,dateString)=>setPickerDate(dateString as string)}
+            onChange={(date, dateString) => setPickerDate(dateString as string)}
           />
         )}
         <Slider
           min={0.5}
           max={8.0}
           step={0.01}
-          style={{ width: "40%" }}
+          style={{ width: '40%' }}
           defaultValue={0.3}
           onChange={onSliderChange}
           value={convertTimeToDecimal(time)}
         />
-        <Space.Compact style={{ width: "30%" }}>
+        <Space.Compact style={{ width: '30%' }}>
           <Input
-            style={{ width: "40%" }}
+            style={{ width: '40%' }}
             defaultValue={0}
             placeholder="hr"
             suffix="hr"
@@ -78,7 +81,7 @@ const MarkAttendanceColumnRender: React.FC<MarkAttendanceColumnProps> = ({ recor
             max={8}
           />
           <Input
-            style={{ width: "60%" }}
+            style={{ width: '60%' }}
             defaultValue={30}
             placeholder="min"
             suffix="min"
@@ -89,25 +92,21 @@ const MarkAttendanceColumnRender: React.FC<MarkAttendanceColumnProps> = ({ recor
           />
         </Space.Compact>
         <Button
-          onClick={()=>onPresentClick()}
+          onClick={() => onPresentClick()}
           style={{
             background:
-              record.is_present_today && !isRow ? "#99E099" : "#FFFFFF",
+              record.is_present_today && !isRow ? '#99E099' : '#FFFFFF',
           }}
           disabled={record.is_present_today && !isRow}
         >
           {record.is_present_today && !isRow
-            ? "Already Present"
-            : "Mark Present"}
+            ? 'Already Present'
+            : 'Mark Present'}
         </Button>
-        {isRow && (
-          <Button onClick={()=>onAbsentClick()}>
-            Mark Absent
-          </Button>
-        )}
+        {isRow && <Button onClick={() => onAbsentClick()}>Mark Absent</Button>}
       </Flex>
     </>
-  );
+  )
 }
 
 export default MarkAttendanceColumnRender

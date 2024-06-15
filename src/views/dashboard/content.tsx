@@ -24,7 +24,7 @@ const DashboardContent: React.FC = () => {
         <>
           {!state.loading && state.gymData ? (
             <>
-              <GymInformation/>
+              <GymInformation />
               <Title level={3}>Gym Statistics</Title>
               <GymStats />
               <Flex
@@ -44,7 +44,7 @@ const DashboardContent: React.FC = () => {
                   editModalOpen={editModalOpen}
                   setEditModalOpen={setEditModalOpen}
                   title="Create Member"
-                  renderType='create'
+                  renderType="create"
                 />
               )}
 

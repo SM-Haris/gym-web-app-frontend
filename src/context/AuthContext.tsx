@@ -10,14 +10,22 @@ import {
   removeToken,
   getUserApi,
   deleteUserApi,
+  validateUserApi,
+  updateUserApi,
 } from '../api'
 import { message } from 'antd'
+import {
+  SignUpDataInterface,
+  UserInterface,
+  UserUpdationInterface,
+  UserValidationValues,
+} from '../interfaces/auth'
 
 type Props = {
   loading: boolean
   checkoutSessionId: string
-  signUpData: any
-  user: any
+  signUpData: SignUpDataInterface | null
+  user: UserInterface | null
 }
 
 type Action = {
@@ -41,6 +49,8 @@ const reducer: Reducer = (prevState: Props, action: Action): Props => {
     case 'signUpData':
     case 'user':
       return { ...prevState, [action.type]: action.payload }
+    case 'clear':
+      return initialState
     default:
       throw new Error(`Unhandled action type: ${action.type}`)
   }
@@ -52,9 +62,11 @@ type Context = {
   login: (params: LoginBody) => void
   logout: () => void
   getUser: () => void
-  deleteUser: (user_id: string) => void
+  deleteUser: () => Promise<boolean>
   signup: (params: SignupBody) => void
   checkout: (params: SignupBody) => void
+  validateUser: (params: UserValidationValues) => Promise<boolean>
+  updateUser: (params: UserUpdationInterface) => Promise<boolean>
 }
 
 export const AuthContext = createContext<Context>({
@@ -63,9 +75,17 @@ export const AuthContext = createContext<Context>({
   login: (params: LoginBody) => {},
   logout: () => {},
   getUser: () => {},
-  deleteUser: (user_id: string) => {},
+  deleteUser: () => {
+    return Promise.reject()
+  },
   signup: (params: SignupBody) => {},
   checkout: (params: SignupBody) => {},
+  validateUser: (params: UserValidationValues) => {
+    return Promise.reject()
+  },
+  updateUser: (params: UserUpdationInterface) => {
+    return Promise.reject()
+  },
 })
 
 interface ContextProps {
@@ -109,26 +129,6 @@ export const AuthContextProvider = ({
     })
 
     signupApi(params)
-      .then(() => {
-      })
-      .catch((error: any) => {
-        message.error(error.message)
-      })
-      .finally(() => {
-        dispatch({
-          type: 'loading',
-          payload: false,
-        })
-      })
-  }
-
-  const deleteUser = (user_id: string) => {
-    dispatch({
-      type: 'loading',
-      payload: true,
-    })
-
-    deleteUserApi(user_id)
       .then(() => {})
       .catch((error: any) => {
         message.error(error.message)
@@ -141,6 +141,64 @@ export const AuthContextProvider = ({
       })
   }
 
+  const validateUser = async (
+    params: UserValidationValues
+  ): Promise<boolean> => {
+    let isValidated = false
+
+    dispatch({
+      type: 'loading',
+      payload: true,
+    })
+
+    await validateUserApi(params)
+      .then(() => {
+        isValidated = true
+      })
+      .catch(() => {
+        message.error(
+          'User with this email alreay exists. Please try another email'
+        )
+        isValidated = false
+      })
+      .finally(() => {
+        dispatch({
+          type: 'loading',
+          payload: false,
+        })
+      })
+    return isValidated
+  }
+
+  const deleteUser = async (): Promise<boolean> => {
+    let isDeleted = false
+
+    dispatch({
+      type: 'loading',
+      payload: true,
+    })
+
+    await deleteUserApi()
+      .then(() => {
+        isDeleted = true
+        dispatch({
+          type: 'clear',
+          payload: true,
+        })
+      })
+      .catch((error: any) => {
+        isDeleted = false
+      })
+      .finally(() => {
+        dispatch({
+          type: 'loading',
+          payload: false,
+        })
+      })
+
+    return isDeleted
+  }
+
   const checkout = (params: SignupBody) => {
     dispatch({
       type: 'loading',
@@ -148,6 +206,7 @@ export const AuthContextProvider = ({
     })
     checkoutApi()
       .then(({ data }: ApiResponse) => {
+        console.log(data)
         localStorage.setItem('sign_up_data', JSON.stringify(params))
         window.location.href = data.url
       })
@@ -185,6 +244,37 @@ export const AuthContextProvider = ({
       })
   }
 
+  const updateUser = async (
+    params: UserUpdationInterface
+  ): Promise<boolean> => {
+    let isUpdated = false
+
+    dispatch({
+      type: 'loading',
+      payload: true,
+    })
+
+    await updateUserApi(params)
+      .then(({ data }: ApiResponse) => {
+        dispatch({
+          type: 'user',
+          payload: data,
+        })
+        isUpdated = true
+      })
+      .catch(() => {
+        isUpdated = false
+      })
+      .finally(() => {
+        dispatch({
+          type: 'loading',
+          payload: false,
+        })
+      })
+
+    return isUpdated
+  }
+
   const logout = () => {
     dispatch({
       type: 'user',
@@ -205,6 +295,8 @@ export const AuthContextProvider = ({
         logout,
         getUser,
         deleteUser,
+        validateUser,
+        updateUser,
       }}
     >
       {children}

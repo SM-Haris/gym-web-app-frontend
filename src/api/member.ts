@@ -1,43 +1,40 @@
-import { portalService } from "./service";
-
-export interface FetchAttendaceHoursInterface {
-  to_date: string;
-  from_date?: string;
-}
+import { FetchStatsInterface } from '../interfaces/attendance'
+import { MemberInterface } from '../interfaces/member'
+import { portalService } from './service'
 
 export const memberFetchApi = (gym_id: string) => {
   return portalService({
     url: `/member/${gym_id}`,
-    method: "get",
-  });
-};
+    method: 'get',
+  })
+}
 
-export const memberStatsApi = (gym_id: string, params: FetchAttendaceHoursInterface) => {
+export const memberStatsApi = (gym_id: string, params: FetchStatsInterface) => {
   return portalService({
     url: `/member/stats/${gym_id}/from/${params.from_date}/to/${params.to_date}`,
-    method: "get",
-  });
-};
+    method: 'get',
+  })
+}
 
-export const memberCreateApi = (gym_id: string, params: any) => {
+export const memberCreateApi = (gym_id: string, params: MemberInterface) => {
   return portalService({
     url: `/member/${gym_id}`,
-    method: "post",
-    data: params
-  });
-};
+    method: 'post',
+    data: params,
+  })
+}
 
-export const memberUpdateApi = (member_id: string, params: any) => {
+export const memberUpdateApi = (member_id: string, params: MemberInterface) => {
   return portalService({
     url: `/member/${member_id}`,
-    method: "patch",
-    data: params
-  });
-};
+    method: 'patch',
+    data: params,
+  })
+}
 
 export const memberDeleteApi = (member_id: string) => {
   return portalService({
     url: `/member/${member_id}`,
-    method: "delete",
-  });
-};
+    method: 'delete',
+  })
+}

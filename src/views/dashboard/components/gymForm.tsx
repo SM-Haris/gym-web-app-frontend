@@ -1,13 +1,9 @@
 import { Button, Flex, Form, Input, Space, Typography } from 'antd'
 import { useContext } from 'react'
 import { DashboardContext } from '../../../context/DashboardContext'
+import { GymFormValues } from '../../../interfaces/dashboard'
 
 const { Title } = Typography
-
-export interface GymFormValues {
-  name: string
-  location: string
-}
 
 const GymForm: React.FC = () => {
   const { state, createGym } = useContext(DashboardContext)

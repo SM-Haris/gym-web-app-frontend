@@ -1,19 +1,18 @@
-import { ReactElement } from "react";
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
+import Navbar from './components/Navbar'
+import Footer from './components/Footer'
+import { message } from 'antd'
+import { Props } from '../interfaces/dashboard'
 
-interface Props {
-  children?: ReactElement | null;
-}
+message.config({ maxCount: 2 })
 
 function LayoutView({ children }: Props): JSX.Element {
   return (
     <>
-      <Navbar/>
+      <Navbar />
       {children}
-      <Footer/>
+      <Footer />
     </>
-  );
-};
+  )
+}
 
 export default LayoutView

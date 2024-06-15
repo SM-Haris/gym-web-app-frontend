@@ -1,6 +1,6 @@
-import React from "react";
-import { Row, Col, List } from "antd";
-import { Link } from "react-router-dom";
+import React from 'react'
+import { Row, Col, List } from 'antd'
+import { Link } from 'react-router-dom'
 
 const Footer: React.FC = () => {
   return (
@@ -8,9 +8,9 @@ const Footer: React.FC = () => {
       justify="center"
       style={{
         background:
-          "linear-gradient(90deg, rgba(214,164,18,1) 49%, rgba(255,250,0,1) 100%)",
-        padding: "2rem",
-        color: "#fff",
+          'linear-gradient(90deg, rgba(214,164,18,1) 49%, rgba(255,250,0,1) 100%)',
+        padding: '2rem',
+        color: '#fff',
       }}
     >
       <Col span={24}>
@@ -27,10 +27,10 @@ const Footer: React.FC = () => {
             <List
               itemLayout="horizontal"
               dataSource={[
-                { title: "Home", href: "/" },
-                { title: "About", href: "/about" },
-                { title: "Services", href: "/services" },
-                { title: "Contact", href: "/contact" },
+                { title: 'Home', href: '/' },
+                { title: 'About', href: '/about' },
+                { title: 'Services', href: '/services' },
+                { title: 'Contact', href: '/contact' },
               ]}
               renderItem={(item) => (
                 <List.Item>
@@ -53,11 +53,11 @@ const Footer: React.FC = () => {
           </Col>
         </Row>
       </Col>
-      <Col span={24} style={{ textAlign: "center", marginTop: "1rem" }}>
+      <Col span={24} style={{ textAlign: 'center', marginTop: '1rem' }}>
         <p>&copy; {new Date().getFullYear()} GymUp. All Rights Reserved.</p>
       </Col>
     </Row>
-  );
-};
+  )
+}
 
-export default Footer;
+export default Footer

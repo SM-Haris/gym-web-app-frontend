@@ -1,14 +1,6 @@
 import { Modal } from 'antd'
-import { DataType } from './membersTable'
 import MemberForm from './memberForm'
-
-export interface EditMemberModalProps {
-  editModalOpen: boolean
-  setEditModalOpen: any
-  member?: DataType
-  title: string
-  renderType: 'edit' | 'create'
-}
+import { EditMemberModalProps } from '../../../interfaces/dashboard'
 
 const EditMemberModal: React.FC<EditMemberModalProps> = ({
   editModalOpen,
