@@ -1,8 +1,9 @@
 import React, { useContext } from 'react'
-import { Form, Input, Button, Typography, Space, Alert } from 'antd'
+import { Form, Input, Button, Space, Alert } from 'antd'
 import { Link } from 'react-router-dom' // Import Link for routing
 import { AuthContext } from '../../context/AuthContext'
 import { SignUpFormValues } from '../../interfaces/dashboard'
+import './style.scss'
 
 const SignupPage: React.FC = () => {
   const { checkout, state, validateUser } = useContext(AuthContext)
@@ -25,20 +26,23 @@ const SignupPage: React.FC = () => {
         gap: 40,
       }}
     >
+      <div className='signup-div'>
+      <div className='signup-div-inner'>
       <Form form={form} layout="vertical" onFinish={handleCheckout}>
-        <Typography.Title level={2}>SignUp</Typography.Title>
+      <h1>SignUp</h1>
 
         <Space direction="vertical" size={16}>
+        <h2>Name</h2>
+          
           <Form.Item
             name="name"
-            label="Username"
             rules={[{ required: true, message: 'Please enter your username!' }]}
           >
             <Input />
           </Form.Item>
+          <h2>Email</h2>
           <Form.Item
             name="email"
-            label="Email"
             rules={[
               { required: true, message: 'Please enter your email address!' },
               {
@@ -50,18 +54,18 @@ const SignupPage: React.FC = () => {
           >
             <Input />
           </Form.Item>
+          <h2>Phone Number</h2>
           <Form.Item
             name="phone_number"
-            label="Phone Number"
             rules={[
               { required: true, message: 'Please enter your Phone Number!' },
             ]}
           >
             <Input />
           </Form.Item>
+          <h2>Password</h2>
           <Form.Item
             name="password"
-            label="Password"
             rules={[
               { required: true, message: 'Please enter your password!' },
               { min: 8, message: 'Password must be upto 8 characters' },
@@ -77,12 +81,15 @@ const SignupPage: React.FC = () => {
         </Space>
 
         <Form.Item>
-          <Button type="primary" htmlType="submit" loading={state.loading}>
+          <Button type="primary" htmlType="submit" loading={state.loading} style={{marginTop:10}}>
             Checkout
           </Button>
         </Form.Item>
         <Link to="/login">Already have an account? Login</Link>
       </Form>
+
+      </div>
+      </div>
       <Alert
         message="This is a test-mode stripe integration please use Card Number: '4242 4242 4242 4242' for a successful transaction"
         type="success"

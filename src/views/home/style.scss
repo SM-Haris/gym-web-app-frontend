@@ -1,38 +1,176 @@
 .content-page {
-  padding: 20px 50px 20px 50px;
+  padding: 0 0 0 0;
+  color: white;
 
-  .home-card {
-    position: relative;
+  .hero {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0 0 0 0;
+    height: 100%;
+    width: 100%;
+    min-height: 700px;
+    background-image: url('../../../public/hero-1.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+
+    .hero-title {
+      height: auto;
+      width: 50%;
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 20px 20px 20px 20px;
+    }
+  }
+
+  .price-content {
+    height: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 40px 0 70px 0;
+    background-color: #000000;
+    :hover {
+      background: #ffffff;
+    }
+    :hover h6 {
+      color: #000000;
+    }
+    :hover h1 {
+      color: #000000;
+    }
+    :hover h4 {
+      color: #000000;
+    }
+    :hover button {
+      color: #f36100;
+    }
+
+    .price-plan {
+      width: 400px;
+      display: flex;
+      flex-direction: column;
+      border: 3px solid #232323;
+      padding: 30px;
+      transform: skewY(-4deg);
+      transition: all 0.5s;
+
+      .price-plan-inner {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transform: skewY(4deg);
+      }
+    }
+
+    .price-plan-items {
+      font-size: 14px;
+      font-weight: 500;
+      margin: 19px 0 0 0;
+      width: max-content;
+      color: #ffffff;
+    }
+  }
+
+  .contact-us-content {
+    height: 600px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    .contact-us-details {
+      width: 30%;
+    }
+
+    .contact-component {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 10px;
+      min-width: 300px;
+      max-width: 300px;
+      margin-top: 20px;
+
+      .contact-icon {
+        background-color: #363636;
+        padding: 15px;
+        font-size: 28px;
+        border-radius: 100px;
+      }
+    }
+
+    .email-form {
+      width: 50%;
+      .email-form-input {
+        background-color: transparent;
+        color: #ffffff;
+        width: 100%;
+        height: 40px;
+        border-radius: 0;
+        padding: 5px 10px 5px 10px;
+      }
+
+      .email-form-input-area {
+        height: 200px;
+        background-color: transparent;
+        color: #ffffff;
+        width: 100%;
+        border-radius: 0;
+        padding: 5px 10px 5px 10px;
+      }
+
+      .email-form-button {
+        width: 100%;
+        height: 50px;
+        background-color: #f36100;
+        color: #ffffff;
+        font-size: 32;
+        font-weight: 700;
+        margin-left: 10px;
+      }
+    }
+  }
+
+  .map-location {
+    margin-bottom: 40px;
+    width: 100%;
     display: flex;
     justify-content: center;
-    padding: 0 0 0 0;
+    align-items: center;
+  }
 
-    .home-card-image {
-      margin-top: 20px;
-      border-radius: 20px;
-      height: 100%;
-      width: 100%;
-      max-height: 500px;
-    }
+  .services-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    background-color: #000000;
+    padding: 30px 10px 30px 10px;
+    gap:30px;
 
-    .home-card-title {
-      position: absolute;
-      bottom: -40px;
-      color: linear-gradient(
-        90deg,
-        rgba(214, 164, 18, 1) 49%,
-        rgba(255, 250, 0, 1) 100%
-      );
-      background: #ffffff;
-      border-radius: 50px;
-      padding: 20px;
-      font-size: 64px;
-      width: 220px;
-      font-weight: 600;
+    .service-card {
       display: flex;
+      flex-direction: column;
+      width: 300px;
       align-items: center;
-      box-shadow: 0px 3px 3px;
+      justify-content: center;
+      text-align: center;
+
+      .service-icon {
+        background-color: #f36100;
+        padding: 15px;
+        font-size: 28px;
+        width:min-content;
+        border-radius: 100px;
+      }
     }
+
   }
 
   .card-column {

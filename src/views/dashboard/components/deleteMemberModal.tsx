@@ -25,7 +25,7 @@ const DeleteMemberModal: React.FC<DeleteModalProps> = ({
         okType="danger"
       >
         <p>
-          Are you sure you want to delete memeber <q>{member.name}</q>
+          Are you sure you want to delete member <q>{member.name}</q>
         </p>
       </Modal>
     </>

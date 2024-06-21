@@ -35,7 +35,7 @@ export interface MemberFormValues {
   fee: string
 }
 
-export interface MemeberFormProps {
+export interface MemberFormProps {
   memberDefaultValues?: MemberDataInterface
   renderType: 'edit' | 'create'
   setModalOpen: React.Dispatch<React.SetStateAction<boolean>>

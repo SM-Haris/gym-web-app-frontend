@@ -3,10 +3,10 @@ import { useContext, useMemo } from 'react'
 import { DashboardContext } from '../../../context/DashboardContext'
 import {
   MemberFormValues,
-  MemeberFormProps,
+  MemberFormProps,
 } from '../../../interfaces/dashboard'
 
-const MemberForm: React.FC<MemeberFormProps> = ({
+const MemberForm: React.FC<MemberFormProps> = ({
   memberDefaultValues,
   renderType,
   setModalOpen,

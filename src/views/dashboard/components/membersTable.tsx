@@ -4,7 +4,7 @@ import { useContext, useState } from 'react'
 import { DashboardContext } from '../../../context/DashboardContext'
 import MarkAttendanceColumnRender from './markAttendanceForm'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
-import DeleteMemberModal from './deleteMemeberModal'
+import DeleteMemberModal from './deleteMemberModal'
 import EditMemberModal from './editMemberModal'
 import { MarkAttendanceColumnProps } from '../../../interfaces/dashboard'
 import { MemberDataInterface } from '../../../interfaces/member'
@@ -33,7 +33,7 @@ const MarkAttendanceColumn: React.FC<MarkAttendanceColumnProps> = ({
           editModalOpen={editModalOpen}
           setEditModalOpen={setEditModalOpen}
           member={record}
-          title="Update Memeber"
+          title="Update Member"
           renderType="edit"
         />
       )}

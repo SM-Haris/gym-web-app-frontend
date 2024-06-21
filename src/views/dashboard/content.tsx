@@ -36,7 +36,7 @@ const DashboardContent: React.FC = () => {
                 }}
               >
                 <Button type="primary" onClick={() => setEditModalOpen(true)}>
-                  + Add New Memeber
+                  + Add New Member
                 </Button>
               </Flex>
               {editModalOpen && (

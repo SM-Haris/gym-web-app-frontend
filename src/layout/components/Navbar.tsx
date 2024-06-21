@@ -60,10 +60,11 @@ const Navbar: React.FC = () => {
       style={{
         padding: '10px 30px 10px 30px',
         borderRadius: 5,
+        zIndex:100
       }}
     >
       <Link to="/">
-        <h1 style={{ color: '#000000', padding: 0, margin: 0, fontSize: 48 }}>
+        <h1 style={{ color: '#FFFFFF', padding: 0, margin: 0, fontSize: 48 }}>
           GymUp
         </h1>
       </Link>
@@ -90,7 +91,7 @@ const Navbar: React.FC = () => {
           <Link to="/login">
             <Button
               type="primary"
-              style={{ borderRadius: '30px', padding: '0 30px 0 30px' }}
+              style={{ borderRadius: '0px', background:'#F36100', padding: '0 30px 0 30px' }}
             >
               Login
             </Button>
