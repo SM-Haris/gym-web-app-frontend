@@ -60,7 +60,6 @@ const Navbar: React.FC = () => {
       style={{
         padding: '10px 30px 10px 30px',
         borderRadius: 5,
-        zIndex:100
       }}
     >
       <Link to="/">

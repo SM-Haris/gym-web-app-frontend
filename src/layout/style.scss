@@ -1,5 +1,5 @@
 .footer {
-  height: 500px;
+  height: max-content;
   background-color: #000000;
   color: white;
   display: flex;
@@ -7,13 +7,16 @@
   flex-direction: column;
 
   .contact-div {
-    height: 200px;
+    height: fit-content;
     background-color: #0a0a0a;
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: center;
     gap: 30px;
     width: 100%;
+    padding-top: 10px;
+    padding-bottom: 10px;
   }
 
   .contact-component {
@@ -58,10 +61,24 @@
     }
   }
 
+  @media (max-width: 636px) {
+    .footer-details {
+      flex-direction: column;
+    }
+
+    .footer-gym-details {
+      border-right:  none !important;
+      border-bottom:  1px solid #162D43;
+    }
+  }
+
   .copyrights-div {
     height: 100px;
     display: flex;
     align-items: center;
     justify-content: center;
+    padding-left: 20px;
+    padding-right: 20px;
+    text-align: center;
   }
 }

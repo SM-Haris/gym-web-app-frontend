@@ -1,5 +1,6 @@
 .signup-div {
   height: auto;
+  margin-top: 50px;
   padding: 50px 50px 50px 50px;
   background-color: #f36100;
   transform: skewY(-4deg);
@@ -45,3 +46,12 @@
     color: black;
   }
 }
+
+.sign-up-alert {
+  max-width:300px;
+  color:white;
+  border: 1px solid green;
+  padding: 9px;
+  border-radius: 20px;
+}
+
