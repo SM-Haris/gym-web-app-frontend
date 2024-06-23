@@ -112,7 +112,7 @@ export const AuthContextProvider = ({
         navigate('/dashboard')
       })
       .catch((error: any) => {
-        message.error(error.message)
+        message.error(error.response.data.message)
       })
       .finally(() => {
         dispatch({

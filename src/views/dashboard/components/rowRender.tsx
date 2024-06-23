@@ -13,7 +13,7 @@ const RowRender: React.FC<MarkAttendanceColumnProps> = ({
   const { getAttendanceHours, state } = useContext(DashboardContext)
 
   return (
-    <Flex vertical={true} gap={20}>
+    <div className="member-attendance-row">
       <LineChart
         chartTitle="Attendance"
         seriesValues={[
@@ -21,12 +21,15 @@ const RowRender: React.FC<MarkAttendanceColumnProps> = ({
         ]}
         fetchChartData={getAttendanceHours}
         recordId={record.id}
+        chartType="memberAttendance"
       />
-      <Typography>Mark Attendance for a specific date:</Typography>
+      <div style={{display:'flex',justifyContent:'flex-start',width:'100%'}}>
+        <Typography>Mark Attendance for a specific date:</Typography>
+      </div>
       <Flex gap={10} align="center">
         <MarkAttendanceColumnRender record={record} renderType={renderType} />
       </Flex>
-    </Flex>
+    </div>
   )
 }
 

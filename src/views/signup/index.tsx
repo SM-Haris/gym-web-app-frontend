@@ -28,7 +28,7 @@ const SignupPage: React.FC = () => {
     >
       <div className="signup-div">
         <div className="signup-div-inner">
-          <Form form={form} layout="vertical" onFinish={handleCheckout}>
+          <Form form={form} layout="vertical" onFinish={(data)=>handleCheckout(data)}>
             <h1>SignUp</h1>
 
             <Space direction="vertical" size={16}>

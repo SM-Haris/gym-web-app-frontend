@@ -25,7 +25,7 @@ const GymForm: React.FC = () => {
         Seem like you haven't created a gym yet. Start one now!!
       </Title>
       <Form form={form} layout="vertical" onFinish={createGym}>
-        <Space direction="vertical" size={16}>
+        <Space direction="vertical" style={{width:'100%'}}>
           <Form.Item
             name="name"
             label="Name"

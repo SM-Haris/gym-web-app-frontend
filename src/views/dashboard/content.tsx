@@ -16,10 +16,12 @@ const DashboardContent: React.FC = () => {
   const [editModalOpen, setEditModalOpen] = useState<boolean>(false)
 
   return (
-    <Content style={{ padding: 20 }}>
+    <Content className='dashboard-page'>
       <Title level={2}>Dashboard</Title>
       {state.loading ? (
-        <LoadingOutlined />
+        <div style={{display:'flex',justifyContent:'center',alignItems:'center',height:'100vh',width:'100%'}}>
+        <LoadingOutlined style={{ fontSize: 48 }}/>
+        </div>
       ) : (
         <>
           {!state.loading && state.gymData ? (

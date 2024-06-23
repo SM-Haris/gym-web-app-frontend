@@ -30,10 +30,11 @@ const UpdateUserModal: React.FC<UpdateUserProps> = ({
         initialValues={state.user ? state.user : {}}
         onFinish={handleUpdate}
       >
-        <Space direction="vertical" size={16}>
+        <Space direction="vertical" style={{width:'100%'}}>
           <Form.Item
             name="name"
             label="Name"
+            style={{width:'100%'}}
             rules={[{ required: true, message: 'Please enter your name' }]}
           >
             <Input />
@@ -87,6 +88,12 @@ const UpdateUserModal: React.FC<UpdateUserProps> = ({
             <Input.Password />
           </Form.Item>
         </Space>
+        <div style={{display:'flex', justifyContent:'flex-end', gap: 20}}>
+        <Form.Item>
+          <Button type="primary" htmlType="submit" loading={state.loading}>
+            Update User
+          </Button>
+        </Form.Item>
         <Form.Item>
           <Button
             type="primary"
@@ -97,11 +104,7 @@ const UpdateUserModal: React.FC<UpdateUserProps> = ({
           </Button>
         </Form.Item>
 
-        <Form.Item>
-          <Button type="primary" htmlType="submit" loading={state.loading}>
-            Update User
-          </Button>
-        </Form.Item>
+        </div>
       </Form>
     </Modal>
   )

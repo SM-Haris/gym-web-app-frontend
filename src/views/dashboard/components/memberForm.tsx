@@ -38,8 +38,9 @@ const MemberForm: React.FC<MemberFormProps> = ({
       <div
         style={{
           display: 'flex',
-          flexWrap: 'wrap',
-          justifyContent: 'space-around',
+          flexDirection:'column',
+          gap:20,
+          width:'100%'
         }}
       >
         <Form.Item
@@ -79,7 +80,9 @@ const MemberForm: React.FC<MemberFormProps> = ({
         >
           <Input type="number" prefix={'$'} />
         </Form.Item>
-        <Form.Item>
+      </div>
+      <div style={{display:'flex',justifyContent:'flex-end'}}>
+      <Form.Item>
           <Button type="primary" htmlType="submit" loading={state.statsLoading}>
             {isEdit ? 'Update Member' : 'Create Member'}
           </Button>

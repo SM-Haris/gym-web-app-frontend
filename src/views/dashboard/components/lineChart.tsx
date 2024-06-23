@@ -19,6 +19,7 @@ const LineChart: React.FC<LineChartProps> = ({
   seriesValues,
   fetchChartData,
   recordId,
+  chartType
 }) => {
   const { state } = useContext(DashboardContext)
   const [chartsDateRange, setChartsDateRange] = useState<string[]>([])
@@ -36,7 +37,7 @@ const LineChart: React.FC<LineChartProps> = ({
     const defaultDates = getDefaultDates(true) as [string, string]
     setChartsDateRange(getDatesBetween(defaultDates[1], defaultDates[0]))
 
-    if (state.revenueDetails.length === 0 && state.attendanceStats.length === 0)
+    if ((state.revenueDetails.length === 0 && state.attendanceStats.length === 0) || chartType === 'memberAttendance')
       fetchChartData(recordId, {
         from_date: defaultDates[1],
         to_date: defaultDates[0],
@@ -51,7 +52,7 @@ const LineChart: React.FC<LineChartProps> = ({
 
   return (
     <>
-      <ReactECharts option={options} style={{ height: 400 }} />
+      <ReactECharts option={options} style={{ height: 400, width:'100%' }} />
       <Flex vertical={false} gap={20} align="center">
         <Typography>Pick date range</Typography>
         <RangePicker

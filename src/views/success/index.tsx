@@ -34,12 +34,12 @@ const SuccessDisplay: React.FC = () => {
       }}
     >
       <Row>
-        <Typography.Title level={1}>
+        <Typography.Title level={1} style={{color:'#FFFFFF'}}>
           Thank you for suscribing to our services
         </Typography.Title>
       </Row>
       <Row>
-        <Typography.Title level={4}>
+        <Typography.Title level={4} style={{color:'#FFFFFF'}}>
           Please login into you account...
         </Typography.Title>
       </Row>

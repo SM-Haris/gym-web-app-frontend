@@ -51,22 +51,26 @@ const columns: TableProps<MemberDataInterface>['columns'] = [
     title: 'Name',
     dataIndex: 'name',
     key: 'name',
+    width: '150px',
     render: (text: string) => <p>{text}</p>,
   },
   {
     title: 'Email',
     dataIndex: 'email',
     key: 'email',
+    width: '150px',
   },
   {
     title: 'Phone Number',
     dataIndex: 'phone_number',
     key: 'phone_number',
+    width: '150px',
   },
   {
     title: 'Mark Attendance',
     key: 'tags',
     dataIndex: 'tags',
+    width:'700px',
     render: (_, record: MemberDataInterface) => (
       <MarkAttendanceColumn record={record} renderType="column" />
     ),
@@ -84,6 +88,8 @@ const MembersTable: React.FC = () => {
         columns={columns}
         dataSource={state.membersData}
         rowKey={'id'}
+        tableLayout='fixed'
+        scroll={{x:1000}}
         expandable={{
           expandedRowRender: (record: MemberDataInterface) => (
             <RowRender record={record} renderType="row" />

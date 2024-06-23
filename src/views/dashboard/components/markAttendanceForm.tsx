@@ -1,7 +1,6 @@
 import {
   Button,
   DatePicker,
-  Flex,
   Input,
   InputNumberProps,
   Slider,
@@ -50,7 +49,7 @@ const MarkAttendanceColumnRender: React.FC<MarkAttendanceColumnProps> = ({
 
   return (
     <>
-      <Flex vertical={false} gap={10} align="center">
+      <div className='mark-attendance-div'>
         {isRow && (
           <DatePicker
             defaultValue={dayjs(pickerDate)}
@@ -64,27 +63,32 @@ const MarkAttendanceColumnRender: React.FC<MarkAttendanceColumnProps> = ({
           min={0.5}
           max={8.0}
           step={0.01}
-          style={{ width: '40%' }}
-          defaultValue={0.3}
+          style={{minWidth:'200px'}}
+          defaultValue={0.5}
+          styles={{
+            rail: {
+              backgroundColor: '#f36100'
+            }
+          }}
           onChange={onSliderChange}
           value={convertTimeToDecimal(time)}
         />
-        <Space.Compact style={{ width: '30%' }}>
+        <Space.Compact>
           <Input
-            style={{ width: '40%' }}
             defaultValue={0}
             placeholder="hr"
             suffix="hr"
+            style={{width:100}}
             value={time.hrs}
             onChange={(e) => setTime({ ...time, hrs: Number(e.target.value) })}
             min={0}
             max={8}
           />
           <Input
-            style={{ width: '60%' }}
             defaultValue={30}
             placeholder="min"
             suffix="min"
+            style={{width:100}}
             value={time.mins}
             onChange={(e) => setTime({ ...time, mins: Number(e.target.value) })}
             min={0}
@@ -104,7 +108,7 @@ const MarkAttendanceColumnRender: React.FC<MarkAttendanceColumnProps> = ({
             : 'Mark Present'}
         </Button>
         {isRow && <Button onClick={() => onAbsentClick()}>Mark Absent</Button>}
-      </Flex>
+      </div>
     </>
   )
 }

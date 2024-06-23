@@ -22,12 +22,14 @@ const CancelPage: React.FC = () => {
       }}
     >
       <Row>
-        <Typography.Title level={1}>
+        <Typography.Title level={1} style={{ color: '#FFFFFF' }}>
           Sorry but your transaction was unsuccessful
         </Typography.Title>
       </Row>
       <Row>
-        <Typography.Title level={4}>Please sign up again...</Typography.Title>
+        <Typography.Title level={4} style={{ color: '#FFFFFF' }}>
+          Please sign up again...
+        </Typography.Title>
       </Row>
     </div>
   )

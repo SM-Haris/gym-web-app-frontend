@@ -1,4 +1,3 @@
-import { Col, Flex } from 'antd'
 import { useContext } from 'react'
 import LineChart from './lineChart'
 import { DashboardContext } from '../../../context/DashboardContext'
@@ -9,8 +8,8 @@ const GymStats: React.FC = () => {
 
   return (
     <>
-      <Flex vertical={false}>
-        <Col style={{ width: '50%' }}>
+      <div className="gym-stats">
+        <div className="gym-stats-chart">
           {state.gymData && (
             <LineChart
               chartTitle="Attendance Statistics"
@@ -19,8 +18,8 @@ const GymStats: React.FC = () => {
               recordId={state.gymData.id}
             />
           )}
-        </Col>
-        <Col style={{ width: '50%' }}>
+        </div>
+        <div className="gym-stats-chart">
           {state.gymData && (
             <LineChart
               chartTitle="Revenue"
@@ -29,8 +28,8 @@ const GymStats: React.FC = () => {
               recordId={state.gymData.id}
             />
           )}
-        </Col>
-      </Flex>
+        </div>
+      </div>
     </>
   )
 }

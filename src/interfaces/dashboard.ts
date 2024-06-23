@@ -51,6 +51,7 @@ export interface LineChartProps {
   seriesValues: { name: string; values: string[] }[]
   fetchChartData: any
   recordId?: string
+  chartType?: string
 }
 
 export interface GymFormValues {

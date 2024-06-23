@@ -40,9 +40,10 @@ const GymInformation: React.FC = () => {
             <EditOutlined onClick={() => setEditable(true)} />
           </div>
           {!editable ? (
-            <h2>Location: {state.gymData ? state.gymData.location : null}</h2>
+            <h2>{state.gymData ? state.gymData.location : null}</h2>
           ) : (
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <>
+            <div style={{ display: 'flex'}}>
               <Form.Item
                 name="location"
                 label="Location"
@@ -52,13 +53,14 @@ const GymInformation: React.FC = () => {
               >
                 <Input />
               </Form.Item>
-              <div style={{ display: 'flex', gap: 20 }}>
-                <Button type="primary" htmlType="submit">
-                  Save
-                </Button>
-                <Button onClick={() => setEditable(false)}>Cancel</Button>
-              </div>
             </div>
+            <div style={{ display: 'flex', gap: 20, justifyContent:'flex-end' }}>
+            <Button type="primary" htmlType="submit">
+              Save
+            </Button>
+            <Button onClick={() => setEditable(false)}>Cancel</Button>
+          </div>
+          </>
           )}
         </Form>
       )}

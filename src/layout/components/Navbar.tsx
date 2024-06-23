@@ -71,7 +71,7 @@ const Navbar: React.FC = () => {
         {state.user ? (
           <>
             <Dropdown menu={{ items, onClick }}>
-              <Avatar>{getAvatarName(state.user.name as string)}</Avatar>
+              <Avatar style={{color:'#f56a00',border:'2px solid white'}}>{getAvatarName(state.user.name as string)}</Avatar>
             </Dropdown>
             {deleteModalOpen && (
               <DeleteAccountModal

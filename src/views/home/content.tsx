@@ -3,7 +3,9 @@ import { Button, Layout } from 'antd'
 import './style.scss'
 import { Link } from 'react-router-dom'
 import {
+  BarChartOutlined,
   HourglassOutlined,
+  MoneyCollectOutlined,
 } from '@ant-design/icons'
 import Services from './components/services'
 import PricePlan from './components/pricePlan'
@@ -24,13 +26,13 @@ const HomeContent: React.FC = () => {
       title: `STEM Analysis`,
       description: `Uncover hidden potential. Analyze attendance, workouts & revenue.
             Make data-driven decisions. Grow smarter, not harder.`,
-      icon: <HourglassOutlined className="service-icon" />,
+      icon: <BarChartOutlined className="service-icon" />,
     },
     {
       title: `Revenue Insights`,
       description: `Maximize gym revenue. Track earnings, analyze trends, and boost
             profitability. Data-driven decisions for sustainable success.`,
-      icon: <HourglassOutlined className="service-icon" />,
+      icon: <MoneyCollectOutlined className="service-icon" />,
     },
   ]
 
