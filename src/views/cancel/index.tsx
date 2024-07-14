@@ -9,6 +9,7 @@ const CancelPage: React.FC = () => {
     setTimeout(() => {
       navigate('/login')
     }, 3000)
+    // eslint-disable-next-line
   }, [])
 
   return (

@@ -1,4 +1,5 @@
 import About from '../views/about'
+import CancelPage from '../views/cancel'
 import Dashboard from '../views/dashboard'
 import Home from '../views/home'
 import Login from '../views/login'
@@ -14,7 +15,8 @@ const routes = [
       { path: '/about', element: <About /> },
       { path: '/login', element: <Login /> },
       { path: '/signup', element: <SignupPage /> },
-      { path: '/success', element: <SuccessDisplay /> },
+      { path: '/success/', element: <SuccessDisplay /> },
+      { path: '/cancel/', element: <CancelPage /> },
       { path: '/dashboard', element: <Dashboard /> },
     ],
   },

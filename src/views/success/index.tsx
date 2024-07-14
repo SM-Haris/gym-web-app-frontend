@@ -11,7 +11,6 @@ const SuccessDisplay: React.FC = () => {
   useEffect(() => {
     const userData = localStorage.getItem('sign_up_data')
     if (userData && searchParams.get('success')) {
-      console.log('here')
       localStorage.removeItem('sign_up_data')
       setTimeout(() => {
         signup(JSON.parse(userData))
